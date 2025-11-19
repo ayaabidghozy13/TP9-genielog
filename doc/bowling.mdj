@@ -1,0 +1,62 @@
+@startuml
+
+package bowling {
+    class PartieMonoJoueur {
+        - tours : List<Tour>
+        - calculateurScore : CalculateurScore
+        - tourCourant : Tour
+        
+        + PartieMonoJoueur()
+        + enregistreLancer(nombreDeQuillesAbattues : int) : boolean
+        + score() : int
+        + estTerminee() : boolean
+        + numeroTourCourant() : int
+        + numeroProchainLancer() : int
+        - simulerFinTour(tour : Tour) : Tour
+    }
+
+    class Tour {
+        - lancers : List<Lancer>
+        - numeroTour : int
+        - estDernierTour : boolean
+        
+        + Tour(numeroTour : int)
+        + ajouterLancer(lancer : Lancer) : boolean
+        + estTermine() : boolean
+        + estStrike() : boolean
+        + estSpare() : boolean
+        + getQuillesAbattuesTour() : int
+        + getLancers() : List<Lancer>
+        + getNumeroTour() : int
+        + getNombreLancers() : int
+        + estDernierTour() : boolean
+        - gererDernierTour(lancer : Lancer) : boolean
+    }
+
+    class Lancer {
+        - quillesAbattues : int
+        
+        + Lancer(quillesAbattues : int)
+        + getQuillesAbattues() : int
+        + estStrike() : boolean
+    }
+
+    class CalculateurScore {
+        + calculerScoreTotal(tours : List<Tour>) : int
+        - calculerScoreTour(tour : Tour, tours : List<Tour>, indexTour : int) : int
+        - calculerScoreDernierTour(dernierTour : Tour) : int
+        - obtenirBonusStrike(tours : List<Tour>, indexTourStrike : int) : int
+        - obtenirBonusSpare(tours : List<Tour>, indexTourSpare : int) : int
+    }
+
+    PartieMonoJoueur "1" *-- "0..10" Tour : contient
+    PartieMonoJoueur "1" *-- "1" CalculateurScore : utilise
+    Tour "1" *-- "1..3" Lancer : contient
+    CalculateurScore ..> Tour : calcule
+    CalculateurScore ..> Lancer : utilise
+}
+
+
+
+
+@enduml
